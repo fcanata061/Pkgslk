@@ -17,8 +17,14 @@ remove_binary() {
         [[ -d $f ]] && rmdir "$f" 2>/dev/null || true
     done < "$file_list"
 
-    # Atualizar DB
     grep -v "^$pkg:" "$INSTALLED_DB" > "${INSTALLED_DB}.tmp"
     mv "${INSTALLED_DB}.tmp" "$INSTALLED_DB"
     info "$pkg removido com sucesso!"
+}
+
+clean_all() {
+    info "Limpando diretórios de trabalho..."
+    rm -rf "$SRC_DIR" "$BUILD_DIR" "$PKG_DIR" "$LOG_DIR"
+    mkdir -p "$SRC_DIR" "$BUILD_DIR" "$PKG_DIR" "$LOG_DIR"
+    info "Limpeza concluída."
 }
