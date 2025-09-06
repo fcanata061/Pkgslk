@@ -8,16 +8,23 @@ source "$DIR/bin/build.sh"
 source "$DIR/bin/remove.sh"
 source "$DIR/bin/binary.sh"
 
+INSTALLED_DB="$DIR/packages/installed.db"
+mkdir -p "$(dirname "$INSTALLED_DB")"
+
 usage() {
-    echo "Uso: $0 {build|remove|list|install|rebuild} <pacote>"
+    echo "Uso: $0 {build|b|install|i|remove|r|list|l|info|search} <pacote>"
     exit 1
 }
 
-case "$1" in
-    build) build_package "$2" ;;
-    remove) remove_package "$2" ;;
-    list) list_recipes ;;
-    install) install_binary "$2" ;;
-    rebuild) rebuild_package "$2" ;;
+cmd="$1"
+pkg="$2"
+
+case "$cmd" in
+    build|b) build_package "$pkg" ;;
+    install|i) install_binary "$pkg" ;;
+    remove|r) remove_binary "$pkg" ;;
+    list|l) list_recipes_with_status ;;
+    info) show_info "$pkg" ;;
+    search) search_package "$pkg" ;;
     *) usage ;;
 esac
