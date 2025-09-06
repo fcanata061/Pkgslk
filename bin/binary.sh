@@ -6,7 +6,6 @@ mkdir -p "$(dirname "$INSTALLED_DB")"
 install_binary() {
     local pkg="$1"
     local pkg_file="$(pwd)/packages/$pkg-*.pkg.tar"
-    
     if [[ ! -f $pkg_file ]]; then
         error "Pacote $pkg não encontrado. Construa primeiro."
         return 1
@@ -15,14 +14,12 @@ install_binary() {
     info "Instalando $pkg com fakeroot..."
     fakeroot tar -xf "$pkg_file" -C /
 
-    # Registrar arquivos
     local files_list="$(mktemp)"
     tar -tf "$pkg_file" | grep -v metadata > "$files_list"
     echo "$pkg:$files_list" >> "$INSTALLED_DB"
     info "$pkg instalado e registrado!"
 }
 
-# Listagem com status
 list_recipes_with_status() {
     echo "Pacotes disponíveis:"
     for dir in "$DIR/recipes"/*; do
@@ -36,7 +33,6 @@ list_recipes_with_status() {
     done
 }
 
-# Mostrar informações
 show_info() {
     local pkg="$1"
     local recipe_file="$DIR/recipes/$pkg/recipe.sh"
@@ -44,7 +40,6 @@ show_info() {
         warn "Pacote $pkg não encontrado."
         return
     fi
-
     source "$recipe_file"
     echo "Nome: $pkg_name"
     echo "Versão: $pkg_version"
@@ -58,7 +53,6 @@ show_info() {
     echo "Instalado: $([[ "$installed" == true ]] && echo '✔' || echo '✖')"
 }
 
-# Busca
 search_package() {
     local query="$1"
     echo "Resultados da busca para '$query':"
