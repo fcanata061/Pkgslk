@@ -1,2 +1,2 @@
-# Pkgslk
+# Newpkg
 Gerenciador de programas 
